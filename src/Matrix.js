@@ -94,4 +94,14 @@ module.exports = class Matrix {
 			});
 		});
 	}
+
+	remove() {
+		return new Promise((resolve, reject) => {
+			client.removeMatrix({
+				id: this.id
+			}, matrixRemoved => {
+				
+			});
+		})
+	}
 }
