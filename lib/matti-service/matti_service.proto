@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package MattiService;
+
+import "matrix.proto";
+import "con_port.proto";
+import "cpu_port.proto";
+import "default_state.proto";
+import "default_state_video_connection.proto";
+import "default_state_kwm_connection.proto";
+import "diagram.proto";
+import "diagram_screen.proto";
+import "diagram_screen_cpu_port.proto";
+
+
+service Matti {
+	// Matrixs queries
+	rpc fetchMatrixs(FetchMatrixsRequest) returns (stream Matrix) {}
+	rpc fetchMatrixById(FetchMatrixByIdRequest) returns (FetchMatrixByIdResponse) {}
+	rpc fetchMatrixBySlug(FetchMatrixBySlugRequest) returns (FetchMatrixBySlugResponse) {}
+	rpc fetchConPortsByMatrixId(FetchConPortsByMatrixIdRequest) returns (stream ConPort) {}
+	rpc fetchCpuPortsByMatrixId(FetchCpuPortsByMatrixIdRequest) returns (stream CpuPort) {}
+
+	// Matrix mutations
+	rpc connectMatrix(ConnectMatrixRequest) returns(ConnectMatrixResponse) {}
+	rpc editMatrix(EditMatrixRequest) returns(EditMatrixResponse) {}
+	rpc removeMatrix(RemoveMatrixRequest) returns(RemoveMatrixResponse) {}
+	rpc editConPort(EditConPortRequest) returns(EditConPortResponse) {}
+	rpc editCpuPort(EditCpuPortRequest) returns(EditCpuPortResponse) {}
+	
+	// Defaulstate queries
+	rpc fetchDefaultStates(FetchDefaultStatesRequest) returns (stream DefaultState) {}
+	rpc fetchDefaultStateById(FetchDefaultStateByIdRequest) returns (FetchDefaultStateByIdResponse) {}
+	rpc fetchDefaultStateBySlug(FetchDefaultStateBySlugRequest) returns (FetchDefaultStateBySlugResponse) {}
+
+	// Defaultstate mutations
+	rpc createDefaultState(CreateDefaultStateRequest) returns(CreateDefaultStateResponse) {}
+	rpc removeDefaultState(RemoveDefaultStateRequest) returns(RemoveDefaultStateResponse) {}
+	rpc insertVideoConnectionToDefaultState(InsertVideoConnectionToDefaultStateRequest) returns(InsertVideoConnectionToDefaultStateResponse) {}
+	rpc insertKvmConnectionToDefaultState(InsertKvmConnectionToDefaultStateRequest) returns(InsertKvmConnectionToDefaultStateResponse) {}
+	rpc removeVideoConnectionFromDefaultState(RemoveVideoConnectionFromDefaultStateRequest) returns(RemoveVideoConnectionFromDefaultStateResponse) {}
+	rpc removeKvmConnectionFromDefaultState(RemoveKvmConnectionFromDefaultStateRequest) returns(RemoveKvmConnectionFromDefaultStateResponse) {}
+	rpc executeDefaultState(ExecuteDefaultStateRequest) returns(ExecuteDefaultStateResponse) {}
+		
+	// Diagram queries
+	rpc fetchDiagrams(FetchDiagramsRequest) returns(stream Diagram) {}
+	rpc fetchDiagramById(FetchDiagramByIdRequest) returns(FetchDiagramByIdResponse) {}
+	rpc fetchDiagramBySlug(FetchDiagramBySlugRequest) returns(FetchDiagramBySlugResponse) {}
+
+	// Diagram mutations
+	rpc createDiagram(CreateDiagramRequest) returns(CreateDiagramResponse) {}
+	rpc editDiagram(EditDiagramRequest) returns(EditDiagramResponse) {}
+	rpc removeDiagram(RemoveDiagramRequest) returns(RemoveDiagramResponse) {}
+
+	// DiagramScreen queries
+	rpc fetchDiagramScreens(FetchDiagramScreensRequest) returns(stream DiagramScreen) {}
+	rpc fetchDiagramScreenById(FetchDiagramScreenByIdRequest) returns(FetchDiagramScreenByIdResponse) {}
+	rpc fetchDiagramScreenBySlug(FetchDiagramScreenBySlugRequest) returns(FetchDiagramScreenBySlugResponse) {}
+
+	// DiagramScreen mutations
+	rpc createDiagramScreen(CreateDiagramScreenRequest) returns(CreateDiagramScreenResponse) {}
+	rpc removeDiagramScreen(RemoveDiagramScreenRequest) returns(RemoveDiagramScreenResonse) {}
+	rpc editDiagramScreen(EditDiagramScreenRequest) returns(EditDiagramScreenResponse) {}
+	rpc addCpuToDiagramScreen(AddCpuToDiagramScreenRequest) returns(AddCpuToDiagramScreenResponse) {}
+	rpc removeCpuFromDiagramScreen(RemoveCpuFromDiagramScreenRequest) returns(RemoveCpuFromDiagramScreenResponse) {}
+}

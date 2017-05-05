@@ -1,8 +1,22 @@
 {
   "name": "matti-client-js",
   "version": "0.0.0",
-  "private": true,
+  "description": "Client libray for matti service",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "babel src --ignore test.js --out-dir dist/",
+    "prepublish": "npm run build"
+  },
   "dependencies": {
     "grpc": "1.1.2"
-  }
+  },
+  "devDependencies": {
+    
+  },
+  "files": [
+    "dist/",
+    "lib/",
+    "index.js"
+  ]
 }

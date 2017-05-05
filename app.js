@@ -1,24 +1,82 @@
 
-const Matti = require("./Matti");
+const fs = require("fs");
+const grpc = require("grpc");
+const mattiservice = grpc.load("./matti_service/matti_service.proto").MattiService;
 
-matti = new Matti({
-	ip: "localhost",
-	port: 5050
+
+var s = grpc.credentials.createInsecure();
+console.log(grpc.credentials);
+var combined_creds = grpc.credentials.combineCallCredentials({ user: "jaska" });
+
+
+
+
+let credentials = grpc.credentials.createSsl(fs.readFileSync('./ssl/ca.crt'), fs.readFileSync('./ssl/client.key'), fs.readFileSync('./ssl/client.crt'));
+
+
+
+grpc.credentials.createFromMetadataGenerator()
+
+//console.log(combined_creds, mattiservice.Matti);
+
+
+
+// var chCre = grpc.credentials.combineChannelCredentials(s, 
+// grpc.credentials.createFromMetadataGenerator(meta));
+
+// var cert = fs.readFileSync("./cert/ca.key");
+
+var meta = new grpc.Metadata();
+
+meta.add("user", "jaska");
+
+var extra = grpc.credentials.createFromMetadataGenerator(
+	function (url, callback) {
+		callback(null, meta);
+	}
+);
+
+var combined = grpc.credentials.combineChannelCredentials(credentials, extra);
+
+var client = new mattiservice.Matti(`localhost:5050`, combined);
+
+
+
+// var meta = new grpc.Metadata();
+// meta.add('user', 'jasgaa');
+// meta.add('user', 'jasgaa');
+// meta.add('user', 'jasgaa');
+
+// meta.remove("user");
+// meta.set("user", "jasgka");
+// meta.set("user", "maggara");
+
+client.fetchMatrixById({
+	id: 1	
+}, (err, matrix) => {
+	console.log("matrix", matrix);
 });
 
-var matrixs = matti.fetchMatrixs({
-	offset: 0,
-	limit: 10
-});
-console.log(matrixs);
-matrixs.then(matrixs => {
-	matrixs[0].cpuPorts.then(cpuPorts => {
-		console.log("cpuPorts", cpuPorts);
-		cpuPorts[1].slug = "tietokone1";
-	});
+// const Matti = require("./Matti");
 
-	console.log(matrixs);
-});
+// matti = new Matti({
+// 	ip: "localhost",
+// 	port: 5050
+// });
+
+// var matrixs = matti.fetchMatrixs({
+// 	offset: 0,
+// 	limit: 10
+// });
+// console.log(matrixs);
+// matrixs.then(matrixs => {
+// 	matrixs[0].cpuPorts.then(cpuPorts => {
+// 		console.log("cpuPorts", cpuPorts);
+// 		cpuPorts[1].slug = "tietokone1";
+// 	});
+
+// 	console.log(matrixs);
+// });
 
 // function* idMaker() {
 //   var index = 0;
